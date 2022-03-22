@@ -72,4 +72,5 @@ function fight() {
   }
 };
 
+// run fight function to start game
 fight();
