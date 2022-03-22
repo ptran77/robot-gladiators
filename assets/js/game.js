@@ -81,6 +81,7 @@ var startGame = function() {
       var pickedEnemyName = enemyNames[i];
 
       enemyHealth = randomNumber(40,60);
+      enemyAttack = randomNumber(10,14);
 
       fight(pickedEnemyName);
 
