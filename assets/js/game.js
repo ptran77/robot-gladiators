@@ -23,14 +23,17 @@ var fight = function(enemyName) {
       if (confirmSkip) {
         window.alert(playerName + ' has decided to skip this fight. Goodbye!');
         // subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 10;
-        console.log("playerMoney", playerMoney)
+        playerMoney = Math.max(0,playerMoney - 10);
+        console.log("playerMoney", playerMoney);
         break;
       }
     }
   
-    // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = enemyHealth - playerAttack;
+    // generate random damage based on player's attack power
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+
+    // remove enemy's health by subtracting the damage
+    enemyHealth = Math.max(0, enemyHealth - damage);
     console.log(
       playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
     );
@@ -46,9 +49,11 @@ var fight = function(enemyName) {
     } else {
       window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
     }
-  
-    // remove players's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = playerHealth - enemyAttack;
+
+    // generate random damage based on enemy's attack power
+    var damage = randomNumber(enemyAttack-3,enemyAttack);
+    // remove players's health by subtracting the damage
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(
       enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
     );
@@ -75,7 +80,7 @@ var startGame = function() {
 
       var pickedEnemyName = enemyNames[i];
 
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40,60);
 
       fight(pickedEnemyName);
 
@@ -143,33 +148,39 @@ var shop = function() {
     }
 
     break;
-  case "UPGRADE":
-  case "upgrade":
-    if (playerMoney >= 7) {
-      window.alert("Upgrading player's attack by 6 for 7 dollars.");
+    case "UPGRADE":
+    case "upgrade":
+      if (playerMoney >= 7) {
+        window.alert("Upgrading player's attack by 6 for 7 dollars.");
 
-      // increase attack and decrease money
-      playerAttack = playerAttack + 6;
-      playerMoney = playerMoney - 7;
-    }
+        // increase attack and decrease money
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      }
     else {
       window.alert("You don't have enough money!");
     }
 
     break;
-  case "LEAVE":
-  case "leave":
-    window.alert("Leaving the store.");
+    case "LEAVE":
+    case "leave":
+      window.alert("Leaving the store.");
   
-    // do nothing, so function will end
-    break;
-  default:
-    window.alert("You did not pick a valid option. Try again.");
+      // do nothing, so function will end
+      break;
+    default:
+      window.alert("You did not pick a valid option. Try again.");
   
-    // call shop() again to force player to pick a valid option
-    shop();
-    break;
+      // call shop() again to force player to pick a valid option
+      shop();
+      break;
+  }
 }
+
+// function to gerenate a random numeric value
+var randomNumber = function(min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+  return value;
 }
 
 // start the game when the page loads
